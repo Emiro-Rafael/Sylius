@@ -8,6 +8,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Core\Model\Promotion as BasePromotion;
 use Sylius\Component\Promotion\Model\PromotionTranslationInterface;
 
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="sylius_promotion")
+ */
 #[ORM\Entity]
 #[ORM\Table(name: 'sylius_promotion')]
 class Promotion extends BasePromotion
