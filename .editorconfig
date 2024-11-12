@@ -49,12 +49,6 @@ indent_style = space
 indent_size = 4
 trim_trailing_whitespace = false
 
-[docker-compose.{yaml,yml}]
-indent_size = 2
-
-[docker-compose.*.{yaml,yml}]
-indent_size = 2
-
 [.babelrc]
 indent_style = space
 indent_size = 2
@@ -75,7 +69,11 @@ indent_size = 4
 indent_style = space
 indent_size = 2
 
-[phpstan.dist.neon]
+[phpspec.yml{,.dist}]
+indent_style = space
+indent_size = 4
+
+[phpstan.neon]
 indent_style = space
 indent_size = 4
 
