@@ -1,0 +1,42 @@
+{% extends '@SyliusShop/shared/layout/base.html.twig' %}
+
+{% block title %}{{ product.name }} | {{ parent() }}{% endblock %}
+
+{% block content %}
+    <div class="container mt-4 mb-5">
+        {% hook 'sylius_shop.product.show' with { product, configuration } %}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const quantityInput = document.querySelector('input[name="sylius_shop_add_to_cart[cartItem][quantity]"]');
+            if (quantityInput) {
+                quantityInput.setAttribute('step', '10');
+                quantityInput.setAttribute('min', '10');
+                quantityInput.value = 10;
+                quantityInput.dispatchEvent(new Event('input'));
+
+                quantityInput.addEventListener('input', function(){
+                    let quantity = parseInt(quantityInput.value, 10);
+                    if (quantity === 70) {
+                        setTimeout(function () {
+                            alert('Great Choice!');
+                        }, 100);
+                    }
+                });
+
+                quantityInput.addEventListener('change', function(){
+                    let quantity = parseInt(quantityInput.value, 10);
+                    if (quantity % 10 !== 0) {
+                        quantity = Math.ceil(quantity / 10) * 10;
+                        quantityInput.value = quantity;
+                        quantityInput.dispatchEvent(new Event('input'));
+                    }
+                });
+            }
+        });
+    </script>
+{% endblock %}
