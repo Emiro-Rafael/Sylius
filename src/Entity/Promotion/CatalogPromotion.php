@@ -8,6 +8,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Core\Model\CatalogPromotion as BaseCatalogPromotion;
 use Sylius\Component\Promotion\Model\CatalogPromotionTranslationInterface;
 
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="sylius_catalog_promotion")
+ */
 #[ORM\Entity]
 #[ORM\Table(name: 'sylius_catalog_promotion')]
 class CatalogPromotion extends BaseCatalogPromotion
