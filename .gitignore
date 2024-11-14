@@ -25,6 +25,7 @@
 /.env.local
 /.env.local.php
 /public/bundles
+temp_auto_push.bat
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
@@ -52,3 +53,4 @@
 /yarn.lock
 /package-lock.json
 ###< symfony/webpack-encore-bundle ###
+branch_structure.json

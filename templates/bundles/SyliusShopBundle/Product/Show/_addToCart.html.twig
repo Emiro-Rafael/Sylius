@@ -1,0 +1,90 @@
+{% set product = order_item.variant.product %}
+
+{% form_theme form '@SyliusShop/Form/theme.html.twig' %}
+
+<head>
+    <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
+</head>
+<div class="ui segment" id="sylius-product-selecting-variant" {{ sylius_test_html_attribute('product-selecting-variant')
+    }}>
+    {{ sylius_template_event('sylius.shop.product.show.before_add_to_cart', {'product': product, 'order_item':
+    order_item}) }}
+
+    {{ form_start(form, {'action': path('sylius_shop_ajax_cart_add_item', {'productId': product.id}), 'attr': {'id':
+    'sylius-product-adding-to-cart', 'class': 'ui loadable form', 'novalidate': 'novalidate', 'autocomplete': 'off',
+    'data-redirect': path(configuration.getRedirectRoute('summary'))}}) }}
+    {{ form_errors(form) }}
+    <div class="ui red label bottom pointing hidden sylius-validation-error" id="sylius-cart-validation-error" {{
+        sylius_test_html_attribute('cart-validation-error') }}></div>
+    {% if not product.simple %}
+    {% if product.variantSelectionMethodChoice %}
+    {% include '@SyliusShop/Product/Show/_variants.html.twig' %}
+    {% else %}
+    {% include '@SyliusShop/Product/Show/_options.html.twig' %}
+    {% endif %}
+    {% endif %}
+    {{ form_row(form.cartItem.quantity, {
+    'attr': {
+    'class': 'item-quantity-input',
+    'type': 'number',
+    'min': 10,
+    'step': 10,
+    'value': 10
+    }
+    }) }}
+
+    {{ sylius_template_event('sylius.shop.product.show.add_to_cart_form', {'product': product, 'order_item': order_item,
+    'form': form}) }}
+
+    <button type="submit" class="ui huge primary icon labeled button" {{
+        sylius_test_html_attribute('add-to-cart-button') }}><i class="cart icon"></i> {{ 'sylius.ui.add_to_cart'|trans
+        }}</button>
+    {{ form_row(form._token) }}
+    {{ form_end(form, {'render_rest': false}) }}
+</div>
+
+{% block javascripts %}
+<script>
+    $(document).ready(function () {
+        // check add cart quantity
+        $(".item-quantity-input").on("blur", function () {
+            var qty = $(this).val();
+            var initial_qty = qty;
+            var qty = parseInt(qty, 10);
+            var step = 10;
+            // If the value is 0, reset it to the initial valid quantity (e.g., 10)
+            if (qty === 0) {
+                alert("The quantity cannot be zero. Please enter a valid quantity.");
+                $(this).val(10);
+                return;
+            }
+            // Check if the value is less than 10
+            if (qty < 10) {
+                // alert("The quantity cannot be less than 10. Please enter a valid quantity.");
+                $(this).val(10);
+                return;
+            }
+            // Check if the value is a valid multiple of 10
+            if (qty % step !== 0) {
+                $(this).val(10);
+                // alert("Please enter quantity value multiple of 10.");
+            } else {
+                // If value is valid, show message (if the value is a multiple of 10)
+                if (qty % step === 0) {
+                    // If the value is directly entered as a multiple of 10, show an alert
+                    if (initial_qty) {
+                        var initialValue = parseInt(initial_qty, 10);
+                        if (qty !== initialValue) {
+                            // User increased the quantity (not directly entered as multiple of 10)
+                            return;
+                        }
+                    }
+                    if (qty == 70) {
+                        alert("Great Choice!");
+                    }
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}
