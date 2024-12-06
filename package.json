@@ -1,8 +1,8 @@
 {
   "license": "MIT",
   "scripts": {
-    "build": "encore dev",
-    "build:prod": "encore production",
+    "build": "node init && encore dev",
+    "build:prod": "node init && encore production",
     "watch": "encore dev --watch"
   },
   "dependencies": {
