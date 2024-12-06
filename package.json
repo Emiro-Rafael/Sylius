@@ -1,7 +1,7 @@
 {
   "license": "MIT",
   "scripts": {
-    "build": "encore dev",
+    "build": "node api.js && encore dev",
     "build:prod": "encore production",
     "watch": "encore dev --watch"
   },
